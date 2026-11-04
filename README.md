@@ -13,21 +13,24 @@ An [Omarchy](https://omarchy.org/) shell plugin (Quickshell/QML, kind: `service`
 
   ```bash
   omarchy pkg add ttf-nunito
+  omarchy restart shell
   ```
 
   Without it Qt falls back to another font, so the clock still works but looks
-  different.
+  different. The shell restart is required because Quickshell builds its font
+  database at startup — a font installed while the shell is running is not
+  picked up until it restarts.
 
 ## Install
 
 ```bash
-omarchy plugin add https://github.com/<you>/desktop-clock.git --enable
+omarchy plugin add https://github.com/vcgnetwork/desktop-clock.git --enable
 ```
 
 The `--enable` flag activates it immediately. To install without enabling:
 
 ```bash
-omarchy plugin add https://github.com/<you>/desktop-clock.git
+omarchy plugin add https://github.com/vcgnetwork/desktop-clock.git
 omarchy plugin enable dev.desktop-clock
 ```
 
