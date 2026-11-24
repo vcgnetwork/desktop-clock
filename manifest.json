@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "dev.desktop-clock",
   "name": "Desktop Clock",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "dev",
   "license": "MIT",
   "description": "Large clock with stacked month, day and weekday, in the bottom right corner of the desktop",

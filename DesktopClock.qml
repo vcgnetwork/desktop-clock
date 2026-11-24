@@ -8,11 +8,11 @@ Item {
 
   // Tweak these to taste
   readonly property string fontFamily: "Nunito"
-  readonly property int timeSize: 72
-  readonly property int sideSize: 22
+  readonly property int timeSize: 48
+  readonly property int sideSize: 16
   readonly property int bottomMargin: 80
   readonly property int rightMargin: 80
-  readonly property color textColor: "#f2f2f2"
+  readonly property color textColor: "#e0e0e0"
 
   property date now: new Date()
 
@@ -56,8 +56,8 @@ Item {
       Column {
         id: content
         anchors.centerIn: parent
-        // Offset the font's ~31.5px line-height padding, leaving 10px visible.
-        spacing: -21.5
+        // Offset the font's ~31.5px line-height padding, leaving 20px visible.
+        spacing: -11.5
         layer.enabled: true
         layer.effect: MultiEffect {
           shadowEnabled: true
@@ -72,7 +72,7 @@ Item {
           color: root.textColor
           font.family: root.fontFamily
           font.pixelSize: root.timeSize
-          font.weight: Font.Black
+          font.weight: Font.Bold
         }
 
         Text {

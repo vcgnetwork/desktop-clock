@@ -6,36 +6,33 @@ click-through, and takes no space in the bar.
 
 An [Omarchy](https://omarchy.org/) shell plugin (Quickshell/QML, kind: `service`).
 
-## Requirements
-
-- Omarchy (for the `omarchy` CLI and shell)
-- The **Nunito** font, which Omarchy does not install by default:
-
-  ```bash
-  omarchy pkg add ttf-nunito
-  omarchy restart shell
-  ```
-
-  Without it Qt falls back to another font, so the clock still works but looks
-  different. The shell restart is required because Quickshell builds its font
-  database at startup — a font installed while the shell is running is not
-  picked up until it restarts.
-
 ## Install
 
 ```bash
-omarchy plugin add https://github.com/vcgnetwork/desktop-clock.git --enable
-```
-
-The `--enable` flag activates it immediately. To install without enabling:
-
-```bash
 omarchy plugin add https://github.com/vcgnetwork/desktop-clock.git
-omarchy plugin enable dev.desktop-clock
+~/.config/omarchy/plugins/dev.desktop-clock/install.sh
 ```
+
+`install.sh` is safe to run again. It:
+
+1. Installs the **Nunito** font (`ttf-nunito`), which Omarchy doesn't ship.
+2. Restarts the shell, but only if the font was just installed. Quickshell
+   loads fonts when it starts, so a new font isn't used until it restarts.
+3. Turns the clock on.
+
+Without Nunito the clock still works, but Qt falls back to another font and it
+looks different.
 
 Plugins run unsandboxed inside the long-lived `omarchy-shell` process, so only
 install repositories you trust.
+
+### Doing it by hand
+
+```bash
+omarchy pkg add ttf-nunito
+omarchy restart shell
+omarchy plugin add https://github.com/vcgnetwork/desktop-clock.git --enable
+```
 
 ## Update
 
@@ -57,11 +54,11 @@ The clock reads its settings from the properties at the top of
 | Property       | Default    | Meaning                              |
 | -------------- | ---------- | ------------------------------------ |
 | `fontFamily`   | `"Nunito"` | Font used for both lines             |
-| `timeSize`     | `72`       | Time font size in px                 |
-| `sideSize`     | `22`       | Date line font size in px            |
+| `timeSize`     | `48`       | Time font size in px                 |
+| `sideSize`     | `16`       | Date line font size in px            |
 | `bottomMargin` | `80`       | Distance from the bottom of the screen |
 | `rightMargin`  | `80`       | Distance from the right of the screen  |
-| `textColor`    | `"#f2f2f2"`| Text color                           |
+| `textColor`    | `"#e0e0e0"`| Text color                           |
 
 Edit the installed copy instead of this repository:
 
@@ -83,26 +80,18 @@ to the plugin list in `~/.config/omarchy/shell.json`:
 ]
 ```
 
-## Publishing this plugin
+## Publishing changes
+
+This repo is the plugin folder itself. After editing on a machine where the
+folder is a git checkout:
 
 ```bash
-git init
-git add .
-git commit -m "Desktop Clock 1.0.0"
-git branch -M main
-git remote add origin git@github.com:<you>/desktop-clock.git
-git push -u origin main
-```
-
-Before pushing, check that it passes Omarchy's manifest validation:
-
-```bash
+cd ~/.config/omarchy/plugins/dev.desktop-clock
 omarchy plugin validate .
+git commit -am "Describe the change" && git push
 ```
 
-The repository root must contain `manifest.json` and the files it points at —
-`omarchy plugin add` clones the repo straight into
-`~/.config/omarchy/plugins/<id>/`, so there is no subdirectory to point at.
+Other machines pick it up with `omarchy plugin update dev.desktop-clock`.
 
 ## License
 
